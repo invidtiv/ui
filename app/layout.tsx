@@ -110,10 +110,10 @@ export default function RootLayout({
         >
             <div className="relative w-full">
               <SiteHeader />
-              <div className="flex-1 sm:px-6">{children}</div>
+              <div className="flex-1 p-6">{children}</div>
               <SiteFooter />
             </div>
-          {/* <TailwindIndicator /> */}
+          <TailwindIndicator />
         </ThemeProvider>
         <Analytics />
       </body>

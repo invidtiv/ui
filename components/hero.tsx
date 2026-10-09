@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { Courier_Prime } from "next/font/google";
+import { Outfit } from "next/font/google";
 
-const courier = Courier_Prime({
-  weight: ["400"],
+const outfit = Outfit({
   subsets: ["latin"],
+  variable: "--font-outfit",
 });
 
 import { Button } from "@/registry/default/ui/button";
@@ -33,6 +33,7 @@ import Calendar04 from "@/registry/default/widgets/calendar/sm/calendar-04";
 import Clock07 from "@/registry/default/widgets/clock/sm/clock-07";
 import Weather04 from "@/registry/default/widgets/weather/sm/weather-04";
 import { useCopy } from "@/hooks/use-copy";
+import { CodeBlockCommand, convertNpmCommand } from "./code-block-command";
 
 export default function Hero() {
   const { copied, copy } = useCopy();
@@ -68,87 +69,112 @@ export default function Hero() {
   }, [widgets]);
 
   return (
-    <div>
-      <div className="relative z-10 hidden h-[700px] w-full items-center justify-start overflow-hidden perspective-distant xl:flex xl:flex-col">
-        <div className="flex w-full flex-col items-center justify-center gap-5">
-          <h1 className="text-foreground text-4xl/[1.1] font-semibold md:text-5xl/[1.1]">
+    <div className="grid h-dvh min-h-0 w-full grid-rows-[auto_1fr] gap-12">
+      <div className="flex flex-col items-center justify-center gap-4">
+        <div className="space-y-1.5 text-center">
+          <h1
+            className={`"text-foreground md:text-5xl/[1.1]" text-4xl/[1.1] font-semibold ${outfit.className}`}
+          >
             The first ever collection of Widgets for the Web.
           </h1>
           <p className="text-muted-foreground text-lg">
             An open-source curated collection of copy-paste widgets for your
             next project.
           </p>
-          <div className="mx-auto flex w-max gap-x-3">
-            <GetStarted />
-            <Button variant="ghost" asChild>
-              <Link href="/widgets">View Widgets</Link>
-            </Button>
-          </div>
-          <TooltipProvider delayDuration={300}>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Item
-                  variant="outline"
-                  className="border-foreground/30 px-4 py-2"
-                  asChild
-                >
-                  <Button
-                    aria-label={copied ? "Copied" : "Copy command"}
-                    onClick={() =>
-                      copy("npx shadcn@latest add @wigggleui/widget")
-                    }
-                    variant="ghost"
-                    className="hover:cursor-pointer"
-                  >
-                    <ItemContent>
-                      <ItemTitle className={`${courier.className} text-sm`}>
-                        npx shadcn@latest add @wigggleui/widget
-                      </ItemTitle>
-                    </ItemContent>
-                  </Button>
-                </Item>
-              </TooltipTrigger>
-              <TooltipContent className="text-muted-foreground px-2 py-1 text-xs">
-                Click to Copy
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
         </div>
-        {mounted && (
-          <div className="mt-12 grid grid-cols-6 gap-8">
-            {widgets.map((widget, i) => (
-              <div
-                key={i}
-                className="animate-depth-in h-48 w-48 rounded-lg"
-                style={{
-                  animationDelay: `${i * 0.1}s`,
-                  transform: `translate(${randomOffsets[i]?.[0] || 0}px, ${
-                    randomOffsets[i]?.[1] || 0
-                  }px)`,
-                }}
-              >
-                {widget}
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      <div className="relative z-10 flex w-full flex-col gap-5 text-center xl:hidden">
-        <h1 className="text-foreground text-4xl/[1.1] font-semibold md:text-5xl/[1.1]">
-          The first ever collection of Widgets for the Web.
-        </h1>
-        <p className="text-muted-foreground text-lg">
-          An open-source curated collection of copy-paste widgets for your next
-          project.
-        </p>
-        <div className="mx-auto flex w-max gap-x-3">
-          <GetStarted />
-          <Button variant="ghost" asChild>
-            <Link href="/widgets">View Widgets</Link>
-          </Button>
+        <div className="mx-auto w-max">
+          <CodeBlockCommand
+            {...convertNpmCommand("npx shadcn@latest add @wigggleui/widget")}
+          />
+        </div>
+        <div className="flex items-center justify-center gap-6">
+          <Button>Explore Widgets</Button>
+          <Button variant="outline">View Docs</Button>
         </div>
       </div>
+      <div className="bg-red-500"></div>
     </div>
+    // <div>
+    //   <div className="relative z-10 hidden h-175 w-full items-center justify-start overflow-hidden perspective-distant xl:flex xl:flex-col">
+    //     <div className="flex w-full flex-col items-center justify-center gap-5">
+    // <h1 className="text-foreground text-4xl/[1.1] font-semibold md:text-5xl/[1.1]">
+    //   The first ever collection of Widgets for the Web.
+    // </h1>
+    // <p className="text-muted-foreground text-lg">
+    //   An open-source curated collection of copy-paste widgets for your
+    //   next project.
+    // </p>
+    //       <div className="mx-auto flex w-max gap-x-3">
+    //         <GetStarted />
+    //         <Button variant="ghost" asChild>
+    //           <Link href="/widgets">View Widgets</Link>
+    //         </Button>
+    //       </div>
+    //       <TooltipProvider delayDuration={300}>
+    //         <Tooltip>
+    //           <TooltipTrigger asChild>
+    //             <Item
+    //               variant="outline"
+    //               className="border-foreground/30 px-4 py-2"
+    //               asChild
+    //             >
+    //               <Button
+    //                 aria-label={copied ? "Copied" : "Copy command"}
+    //                 onClick={() =>
+    //                   copy("npx shadcn@latest add @wigggleui/widget")
+    //                 }
+    //                 variant="ghost"
+    //                 className="hover:cursor-pointer"
+    //               >
+    //                 <ItemContent>
+    //                   <ItemTitle className={`${courier.className} text-sm`}>
+    //                     npx shadcn@latest add @wigggleui/widget
+    //                   </ItemTitle>
+    //                 </ItemContent>
+    //               </Button>
+    //             </Item>
+    //           </TooltipTrigger>
+    //           <TooltipContent className="text-muted-foreground px-2 py-1 text-xs">
+    //             Click to Copy
+    //           </TooltipContent>
+    //         </Tooltip>
+    //       </TooltipProvider>
+    //     </div>
+    //     {mounted && (
+    //       <div className="mt-12 grid grid-cols-6 gap-8">
+    //         {widgets.map((widget, i) => (
+    //           <div
+    //             key={i}
+    //             className="animate-depth-in h-48 w-48 rounded-lg"
+    //             style={{
+    //               animationDelay: `${i * 0.1}s`,
+    //               transform: `translate(${randomOffsets[i]?.[0] || 0}px, ${
+    //                 randomOffsets[i]?.[1] || 0
+    //               }px)`,
+    //             }}
+    //           >
+    //             {widget}
+    //           </div>
+    //         ))}
+    //       </div>
+    //     )}
+    //   </div>
+
+    //   <div className="relative z-10 flex w-full flex-col gap-5 text-center xl:hidden">
+    //     <h1 className="text-foreground text-4xl/[1.1] font-semibold md:text-5xl/[1.1]">
+    //       The first ever collection of Widgets for the Web.
+    //     </h1>
+    //     <p className="text-muted-foreground text-lg">
+    //       An open-source curated collection of copy-paste widgets for your next
+    //       project.
+    //     </p>
+    //     <div className="mx-auto flex w-max gap-x-3">
+    //       <GetStarted />
+    //       <Button variant="ghost" asChild>
+    //         <Link href="/widgets">View Widgets</Link>
+    //       </Button>
+    //     </div>
+    //   </div>
+    // </div>
   );
 }
