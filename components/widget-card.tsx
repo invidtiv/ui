@@ -1,4 +1,4 @@
-import type { RegistryItem } from "shadcn/registry";
+import type { RegistryItem } from "shadcn/schema";
 
 import { cn } from "@/registry/default/lib/utils";
 

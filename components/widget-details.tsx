@@ -2,7 +2,7 @@
 
 import { JSX, useEffect, useState } from "react";
 import { ArrowUpRight, CodeIcon } from "lucide-react";
-import type { RegistryItem } from "shadcn/registry";
+import type { RegistryItem } from "shadcn/schema";
 
 import { convertRegistryPaths } from "@/lib/utils";
 import { WidgetCreditType } from "@/types";

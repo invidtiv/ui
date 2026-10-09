@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 
 import { categories, getCategory } from "@/config/widgets";
 import { getWidgetsByNames } from "@/lib/utils";
@@ -33,7 +34,17 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function Page({ params }: PageProps) {
+// TODO(per-link-prefetch): assess with the user whether URL data should resolve before click.
+// See: https://nextjs.org/docs/app/guides/optimizing-prefetching
+export default function Page({ params }: PageProps) {
+  return (
+    <Suspense fallback={<CategoryPageFallback />}>
+      <CategoryContent params={params} />
+    </Suspense>
+  );
+}
+
+async function CategoryContent({ params }: PageProps) {
   const category = getCategory((await params).category);
 
   if (!category) {
@@ -86,5 +97,32 @@ export default async function Page({ params }: PageProps) {
         </PageGrid>
       )}
     </>
+  );
+}
+
+function CategoryPageFallback() {
+  return (
+    <div role="status" aria-label="Loading category widgets">
+      <div aria-hidden="true" className="relative mb-16 space-y-3 text-center">
+        <div className="bg-muted mx-auto h-12 max-w-sm animate-pulse rounded-md" />
+        <div className="bg-muted mx-auto h-6 max-w-3xl animate-pulse rounded-md" />
+      </div>
+      <div
+        aria-hidden="true"
+        className="md:border-border relative z-10 my-6 space-y-8 overflow-hidden rounded-4xl p-3 sm:border-2"
+      >
+        <div className="bg-muted mx-auto h-10 max-w-xs animate-pulse rounded-full sm:mx-0" />
+        <div className="-m-px grid grid-cols-12 gap-6 *:px-1 *:py-12 sm:*:px-8 xl:*:px-12">
+          {Array.from({ length: 6 }, (_, index) => (
+            <div
+              key={index}
+              className="col-span-12 sm:col-span-6 lg:col-span-3"
+            >
+              <div className="bg-muted aspect-square animate-pulse rounded-lg" />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }

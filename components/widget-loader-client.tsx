@@ -3,7 +3,7 @@
 import { ComponentType } from "react";
 import dynamic from "next/dynamic";
 import { LoaderCircleIcon } from "lucide-react";
-import type { RegistryItem } from "shadcn/registry";
+import type { RegistryItem } from "shadcn/schema";
 
 interface WidgetLoaderProps {
   widget: RegistryItem;

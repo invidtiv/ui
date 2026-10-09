@@ -1,7 +1,7 @@
 import registry from "@/registry.json";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import type { RegistryItem } from "shadcn/registry";
+import type { RegistryItem } from "shadcn/schema";
 
 const widgets = registry.items as unknown as RegistryItem[];
 
