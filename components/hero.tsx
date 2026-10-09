@@ -34,6 +34,7 @@ import Clock07 from "@/registry/default/widgets/clock/sm/clock-07";
 import Weather04 from "@/registry/default/widgets/weather/sm/weather-04";
 import { useCopy } from "@/hooks/use-copy";
 import { CodeBlockCommand, convertNpmCommand } from "./code-block-command";
+import { WidgetMarquee } from "@/components/widget-marquee";
 
 export default function Hero() {
   const { copied, copy } = useCopy();
@@ -69,7 +70,7 @@ export default function Hero() {
   }, [widgets]);
 
   return (
-    <div className="grid h-dvh min-h-0 w-full grid-rows-[auto_1fr] gap-12">
+    <div className="grid h-dvh min-h-0 w-full grid-rows-[auto_1fr] gap-6">
       <div className="flex flex-col items-center justify-center gap-4">
         <div className="space-y-1.5 text-center">
           <h1
@@ -92,7 +93,9 @@ export default function Hero() {
           <Button variant="outline">View Docs</Button>
         </div>
       </div>
-      <div className="bg-red-500"></div>
+      <div className="mx-auto w-full min-w-0 overflow-hidden">
+        <WidgetMarquee />
+      </div>
     </div>
     // <div>
     //   <div className="relative z-10 hidden h-175 w-full items-center justify-start overflow-hidden perspective-distant xl:flex xl:flex-col">

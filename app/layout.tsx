@@ -108,9 +108,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-            <div className="relative w-full">
+            <div className="relative w-full min-h-screen bg-background font-sans text-foreground">
               <SiteHeader />
-              <div className="flex-1 p-6">{children}</div>
+              <div className="p-6">{children}</div>
               <SiteFooter />
             </div>
           <TailwindIndicator />
