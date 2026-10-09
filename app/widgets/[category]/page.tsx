@@ -34,8 +34,6 @@ export async function generateStaticParams() {
   }));
 }
 
-// TODO(per-link-prefetch): assess with the user whether URL data should resolve before click.
-// See: https://nextjs.org/docs/app/guides/optimizing-prefetching
 export default function Page({ params }: PageProps) {
   return (
     <Suspense fallback={<CategoryPageFallback />}>

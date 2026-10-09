@@ -22,7 +22,6 @@ export default function CategoryCard(props: CategoryCardProps) {
     <div className="space-y-2 text-center">
       <Link
         href={href}
-        prefetch={true}
         className="bg-background peer hover:bg-secondary relative mx-auto flex size-52 items-center justify-center overflow-hidden rounded-lg border sm:flex dark:border-zinc-700/80"
         tabIndex={-1}
       >
