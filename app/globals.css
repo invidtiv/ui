@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "./typeset.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -128,6 +129,15 @@
   --vercel-blue: oklch(0.5787 0.2146 258.04); /* Custom */
   --vercel-teal: oklch(0.6491 0.1136 181.96); /* Custom */
   --vercel-pink: oklch(0.6368 0.2131 1.2); /* Custom */
+}
+
+.typeset-app {
+  --typeset-font-body: var(--font-geist);
+  --typeset-font-heading: var(--font-outfit);
+  --typeset-font-mono: var(--font-geist-mono);
+  --typeset-size: 15px;
+  --typeset-leading: 1.75;
+  --typeset-flow: 1.25em;
 }
 
 @layer base {
