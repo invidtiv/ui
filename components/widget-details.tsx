@@ -8,7 +8,7 @@ import { convertRegistryPaths } from "@/lib/utils";
 import { WidgetCreditType } from "@/types";
 import WidgetCli from "@/components/cli-commands";
 import CodeBlock, { highlight } from "@/components/code-block";
-import CopyButton from "@/components/copy-button";
+import {CopyButton} from "@/components/copy-button";
 import { Button } from "@/registry/default/ui/button";
 import {
   Dialog,
@@ -163,10 +163,10 @@ export default function WidgetDetails({ widget }: { widget: RegistryItem }) {
                       lang="tsx"
                       preHighlighted={highlightedCode}
                     />
-                    <CopyButton
+                    {/* <CopyButton
                       widgetName={widget.name}
                       componentSource={code}
-                    />
+                    /> */}
                   </>
                 )}
               </div>

@@ -1,74 +1,84 @@
-"use client";
+"use client"
 
-import { useOpenPanel } from "@openpanel/nextjs";
+import type { ComponentProps } from "react"
+import { CheckIcon, CircleXIcon, CopyIcon } from "lucide-react"
+import { motion } from "motion/react"
 
-import { useCopy } from "@/hooks/use-copy";
-import { cn } from "@/registry/default/lib/utils";
-import { Button } from "@/registry/default/ui/button";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/registry/default/ui/tooltip";
+import { cn } from "@/lib/utils"
+import type { CopyState } from "@/hooks/use-copy-to-clipboard"
+import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard"
+import { Button } from "@/components/ui/button"
+import { IconSwap, IconSwapItem } from "@/components/icon-swap"
 
-import { Icons } from "@/components/icons";
+export type CopyStateIconProps = {
+  state: CopyState
+  idleIcon?: React.ReactNode
+  doneIcon?: React.ReactNode
+  errorIcon?: React.ReactNode
+}
 
-const CopyButton = ({
-  widgetName,
-  componentSource,
+export function CopyStateIcon({
+  state,
+  idleIcon,
+  doneIcon,
+  errorIcon,
+}: CopyStateIconProps) {
+  return (
+    <IconSwap>
+      <IconSwapItem key={state} as={motion.span}>
+        {state === "idle" && (idleIcon ?? <CopyIcon data-slot="idle-icon" />)}
+
+        {state === "done" && (doneIcon ?? <CheckIcon data-slot="done-icon" />)}
+
+        {state === "error" &&
+          (errorIcon ?? <CircleXIcon data-slot="error-icon" />)}
+      </IconSwapItem>
+    </IconSwap>
+  )
+}
+
+export type CopyButtonProps = ComponentProps<typeof Button> & {
+  text: string | (() => string)
+  onCopySuccess?: (text: string) => void
+  onCopyError?: (error: Error) => void
+} & Omit<CopyStateIconProps, "state">
+
+export function CopyButton({
   className,
-}: {
-  widgetName: string;
-  componentSource: string | null;
-  className?: string;
-}) => {
-  const op = useOpenPanel();
-  const { copied, copy } = useCopy();
-
-  const handleCopyCode = () => {
-    () => op.track(widgetName, { location: "copy_code" });
-    copy(componentSource || "");
-  };
+  size = "icon",
+  children,
+  text,
+  idleIcon,
+  doneIcon,
+  errorIcon,
+  onClick,
+  onCopySuccess,
+  onCopyError,
+  ...props
+}: CopyButtonProps) {
+  const { state, copy } = useCopyToClipboard({
+    onCopySuccess,
+    onCopyError,
+  })
 
   return (
-    <div className={cn("dark absolute top-2 right-2", className)}>
-      <TooltipProvider delayDuration={0}>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="text-muted-foreground hover:text-foreground transition-none hover:bg-transparent disabled:opacity-100"
-              onClick={handleCopyCode}
-              aria-label={copied ? "Copied" : "Copy component source"}
-              disabled={copied}
-            >
-              <div
-                className={cn(
-                  "transition-all",
-                  copied ? "scale-100 opacity-100" : "scale-0 opacity-0",
-                )}
-              >
-                <Icons.check />
-              </div>
-              <div
-                className={cn(
-                  "absolute transition-all",
-                  copied ? "scale-0 opacity-0" : "scale-100 opacity-100",
-                )}
-              >
-                <Icons.copy />
-              </div>
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent className="text-muted-foreground px-2 py-1 text-xs">
-            Copy
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
-    </div>
-  );
-};
-
-export default CopyButton;
+    <Button
+      className={cn("will-change-transform", className)}
+      size={size}
+      onClick={(e) => {
+        copy(text)
+        onClick?.(e)
+      }}
+      aria-label="Copy"
+      {...props}
+    >
+      <CopyStateIcon
+        state={state}
+        idleIcon={idleIcon}
+        doneIcon={doneIcon}
+        errorIcon={errorIcon}
+      />
+      {children}
+    </Button>
+  )
+}

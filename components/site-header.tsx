@@ -1,46 +1,44 @@
 import Link from "next/link";
 
-import { ThemeToggle } from "@/components/theme-toggle";
-
+import { siteConfig } from "@/config/site";
 import { Icons } from "@/components/icons";
-import { GitHubLink } from "@/components/github-link";
+import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { SearchCommandMenu } from "@/components/search-command-menu";
+
+const LINKS = [
+  { href: "/docs", label: "Docs" },
+  { href: "/widgets", label: "Widgets" },
+  { href: "/playground", label: "Playground" },
+  { href: "/sponsors", label: "Sponsors" },
+  { href: "/changelog", label: "Changelog" },
+];
 
 export default function SiteHeader() {
   return (
-    <header className="relative mb-6">
-      <div className="flex justify-between gap-2 p-6">
-        <div className="-mt-0.5 flex shrink-0 items-center justify-start gap-4 md:gap-8">
+    <header className="sticky top-0 inset-x-0 z-50 bg-background border-border flex h-12 w-full items-center justify-between border-b px-3">
+      <div className="flex items-center justify-start gap-6">
+        <Link href="/">
+          <Icons.logo className="size-5" />
+        </Link>
+        {LINKS.map((link) => (
           <Link
-            href="/"
-            className="text-foreground hover:text-muted-foreground flex items-center justify-center gap-x-3 text-lg font-semibold sm:text-xl md:text-xl"
-            aria-label="Home"
+            key={link.href}
+            href={link.href}
+            className="text-muted-foreground hover:text-foreground text-sm no-underline transition-colors duration-300"
           >
-            <Icons.logo />
-            Wigggle UI
+            {link.label}
           </Link>
-          <Link
-            href="/docs"
-            className="text-foreground hover:text-muted-foreground"
-            aria-label="Docs"
-          >
-            Docs
+        ))}
+      </div>
+      <div className="flex items-center justify-end gap-4">
+        <SearchCommandMenu />
+        <Button asChild size="icon" variant="ghost" className="group">
+          <Link href={siteConfig.links.github} target="_blank" rel="noreferrer">
+            <Icons.GitHub className="text-muted-foreground group-hover:text-foreground size-4.5 transition-colors duration-300" />
           </Link>
-          <Link
-            href="/widgets"
-            className="text-foreground hover:text-muted-foreground"
-            aria-label="Widgets"
-          >
-            Widgets
-          </Link>
-        </div>
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-4">
-            <div className="hidden lg:block">
-              <GitHubLink />
-            </div>
-            <ThemeToggle />
-          </div>
-        </div>
+        </Button>
+        <ThemeToggle />
       </div>
     </header>
   );

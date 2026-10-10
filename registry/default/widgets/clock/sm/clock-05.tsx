@@ -4,9 +4,11 @@ import * as React from "react";
 import { Widget, WidgetContent } from "@/registry/default/ui/widget";
 
 export default function WidgetDemo() {
-  const [time, setTime] = React.useState(new Date());
+  const [time, setTime] = React.useState<Date | null>(null);
 
   React.useEffect(() => {
+    setTime(new Date());
+
     const timer = setInterval(() => {
       setTime(new Date());
     }, 1000);
@@ -16,9 +18,9 @@ export default function WidgetDemo() {
     };
   }, []);
 
-  const hours = time.getHours() % 12;
-  const minutes = time.getMinutes();
-  const seconds = time.getSeconds();
+  const hours = time ? time.getHours() % 12 : 0;
+  const minutes = time?.getMinutes() ?? 0;
+  const seconds = time?.getSeconds() ?? 0;
 
   const hoursDegrees = ((hours + minutes / 60) / 12) * 360;
   const minutesDegrees = ((minutes + seconds / 60) / 60) * 360;
@@ -31,8 +33,8 @@ export default function WidgetDemo() {
           const hour = i + 1;
           const angle = (hour / 12) * 360;
           const radians = (angle * Math.PI) / 180;
-          const x = Math.sin(radians) * 70;
-          const y = -Math.cos(radians) * 70;
+          const x = (Math.sin(radians) * 70).toFixed(2);
+          const y = (-Math.cos(radians) * 70).toFixed(2);
           return (
             <div
               key={hour}
@@ -45,7 +47,7 @@ export default function WidgetDemo() {
             </div>
           );
         })}
-        <div className="relative size-[88px]">
+        <div className="relative size-22">
           <div
             className="absolute bottom-1/2 left-1/2 h-12 w-1 origin-bottom rounded-full bg-gray-800 dark:bg-gray-200"
             style={{

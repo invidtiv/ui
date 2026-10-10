@@ -106,8 +106,8 @@ export default function StopwatchPage() {
         {/* Numbers 1-12 */}
         {[...Array(12)].map((_, i) => {
           const angle = i * 30 * (Math.PI / 180);
-          const x = Math.sin(angle) * 50;
-          const y = -Math.cos(angle) * 50;
+          const x = (Math.sin(angle) * 50).toFixed(2);
+          const y = (-Math.cos(angle) * 50).toFixed(2);
           const number = i === 0 ? 12 : i;
 
           return (

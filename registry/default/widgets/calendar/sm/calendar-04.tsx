@@ -14,7 +14,15 @@ import { Button } from "@/registry/default/ui/button";
 import { Separator } from "@/registry/default/ui/separator";
 
 export default function WidgetDemo() {
-  const [date, setDate] = React.useState(new Date());
+  const [date, setDate] = React.useState(() => new Date(2025, 0, 1));
+  const [today, setToday] = React.useState(() => new Date(2025, 0, 1));
+
+  React.useEffect(() => {
+    const currentDate = new Date();
+    setDate(currentDate);
+    setToday(currentDate);
+  }, []);
+
   const { getFullYear: y, getMonth: m } = date;
   const [year, month] = [y.call(date), m.call(date)];
 
@@ -32,7 +40,7 @@ export default function WidgetDemo() {
 
   const isToday = (day: number | null) =>
     day &&
-    new Date(year, month, day).toDateString() === new Date().toDateString();
+    new Date(year, month, day).toDateString() === today.toDateString();
 
   const monthName = new Intl.DateTimeFormat("en-US", { month: "short" }).format(
     new Date(year, month),

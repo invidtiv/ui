@@ -47,6 +47,17 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --color-code: var(--code);
+  --color-code-foreground: var(--code-foreground);
+  --animate-marquee: marquee var(--duration) infinite linear;
+  @keyframes marquee {
+  from {
+    transform: translateX(0);
+    }
+  to {
+    transform: translateX(calc(-100% - var(--gap)));
+    }
+  }
 }
 
 :root {
@@ -87,7 +98,7 @@
   --vercel-purple: oklch(0.5556 0.1829 305.86); /* Custom */
   --vercel-blue: oklch(0.5787 0.2146 258.04); /* Custom */
   --vercel-teal: oklch(0.6491 0.1136 181.96); /* Custom */
-  --vercel-pink: oklch(0.6368 0.2131 1.2); /* Custom */
+  --vercel-pink: oklch(0.6368 0.2131 1.2); /* Custom */ --code: oklch(0.985 0 0); --code-foreground: oklch(0.141 0.005 285.823);
 }
 
 .dark {
@@ -127,7 +138,16 @@
   --vercel-purple: oklch(0.5556 0.1829 305.86); /* Custom */
   --vercel-blue: oklch(0.5787 0.2146 258.04); /* Custom */
   --vercel-teal: oklch(0.6491 0.1136 181.96); /* Custom */
-  --vercel-pink: oklch(0.6368 0.2131 1.2); /* Custom */
+  --vercel-pink: oklch(0.6368 0.2131 1.2); /* Custom */ --code: oklch(0.21 0.006 285.885); --code-foreground: oklch(0.985 0 0);
+}
+
+.typeset-app {
+  --typeset-font-body: var(--font-geist);
+  --typeset-font-heading: var(--font-outfit);
+  --typeset-font-mono: var(--font-geist-mono);
+  --typeset-size: 15px;
+  --typeset-leading: 1.75;
+  --typeset-flow: 1.25em;
 }
 
 @layer base {
@@ -137,6 +157,10 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+@utility link-underline {
+  text-decoration-line: underline;
 }
 
 ::view-transition-old(root),
@@ -181,18 +205,6 @@
 }
 
 @layer utilities {
-  @keyframes marquee {
-    0% {
-      transform: translateX(100%);
-    }
-    100% {
-      transform: translateX(-100%);
-    }
-  }
-  .animate-marquee {
-    animation: marquee 8s linear infinite;
-  }
-
   @keyframes spin {
     0%,
     100% {

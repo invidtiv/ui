@@ -1,20 +1,19 @@
 import type { Metadata } from "next";
-import { Outfit } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { OpenPanelComponent } from "@openpanel/nextjs";
+import { Outfit } from "next/font/google";
 
 import "./globals.css";
 
 import { ThemeProvider } from "@/components/theme-provider";
 import SiteHeader from "@/components/site-header";
 import SiteFooter from "@/components/site-footer";
-import { DotBackground } from "@/components/dot-background";
 import { TailwindIndicator } from "@/components/tailwind-indicator";
 import { siteConfig } from "@/config/site";
 
 const outfit = Outfit({
-  weight: ["300", "400", "500", "600", "700", "800"],
   subsets: ["latin"],
+  variable: "--font-outfit",
 });
 
 export const metadata: Metadata = {
@@ -88,7 +87,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${outfit.className} antialiased`}>
+      <body className={`${outfit.className} typeset typeset-app antialiased`}>
         <OpenPanelComponent
           clientId={process.env.OPEN_PANEL_CLIENT_ID!}
           trackScreenViews={true}
@@ -99,15 +98,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="relative">
-            <div className="absolute inset-0">
-              <DotBackground />
-            </div>
-            <div className="mx-auto flex min-h-screen max-w-[1500px] flex-col max-sm:text-center">
-              <SiteHeader />
-              <div className="flex-1 sm:px-6">{children}</div>
-              <SiteFooter />
-            </div>
+          <div className="bg-background text-foreground relative min-h-screen w-full font-sans">
+            <SiteHeader />
+            <div className="p-6">{children}</div>
+            <SiteFooter />
           </div>
           <TailwindIndicator />
         </ThemeProvider>

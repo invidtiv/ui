@@ -2,7 +2,7 @@ import { siteConfig } from "@/config/site";
 
 export default function SiteFooter() {
   return (
-    <footer className="relative z-10 flex justify-center gap-2 p-6 max-sm:flex-col max-sm:text-center">
+    <footer className="bg-background border-border flex h-12 w-full items-center justify-center border-t">
       <span className="text-muted-foreground text-sm">
         Built by{" "}
         <a
@@ -12,7 +12,7 @@ export default function SiteFooter() {
           className="hover:text-foreground font-medium transition-colors duration-300"
         >
           Henil Shah
-        </a>{" "}
+        </a>
         . The source code is available on{" "}
         <a
           href={siteConfig.links.github}
