@@ -5,6 +5,7 @@ import { Fragment, jsx, jsxs } from "react/jsx-runtime";
 import { toJsxRuntime } from "hast-util-to-jsx-runtime";
 import type { BundledLanguage } from "shiki/bundle/web";
 import { codeToHast } from "shiki/bundle/web";
+import { CopyButton } from "./copy-button";
 
 export async function highlight(code: string, lang: BundledLanguage) {
   const hast = await codeToHast(code, {
@@ -61,7 +62,8 @@ export default function CodeBlock({
   }, [code, lang, preHighlighted]);
 
   return content ? (
-    <div className="[&_code]:font-mono [&_code]:text-[13px] [&_pre]:max-h-100 [&_pre]:overflow-auto [&_pre]:rounded-md [&_pre]:bg-zinc-950! [&_pre]:p-4 [&_pre]:leading-snug dark:[&_pre]:bg-zinc-900!">
+    <div className="relative [&_code]:font-mono [&_code]:text-[13px] [&_pre]:max-h-100 [&_pre]:overflow-auto [&_pre]:rounded-md [&_pre]:bg-zinc-950! [&_pre]:p-4 [&_pre]:leading-snug dark:[&_pre]:bg-zinc-900!">
+      {code && <div className="absolute top-2 right-4"><CopyButton size='icon-sm' text={code} /></div>}
       {content}
     </div>
   ) : (

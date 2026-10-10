@@ -7,6 +7,7 @@ import { Button } from "@/registry/default/ui/button";
 import { Callout } from "@/components/callout";
 import CliCommands from "@/components/cli-commands";
 import CodeBlock from "@/components/code-block";
+import { CodeBlockCommand } from "@/components/code-block-command";
 import { CopyButton } from "@/components/copy-button";
 import { Separator } from "@/components/ui/separator";
 import { TypeTable } from "./components/type-table";
@@ -173,6 +174,7 @@ export const mdxComponents: MDXComponents = {
   Callout,
   CliCommands,
   CodeBlock,
+  CodeBlockCommand,
   CopyButton,
   Link,
   Separator,

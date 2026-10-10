@@ -86,7 +86,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
       <body className={`${outfit.className} typeset typeset-app antialiased`}>
         <OpenPanelComponent
           clientId={process.env.OPEN_PANEL_CLIENT_ID!}
@@ -98,7 +98,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="bg-background text-foreground relative min-h-screen w-full font-sans">
+          <div className="bg-background text-foreground relative min-h-screen w-full font-sans grid grid-rows-[auto_1fr_auto]">
             <SiteHeader />
             <div className="p-6">{children}</div>
             <SiteFooter />

@@ -6,9 +6,7 @@ import type { RegistryItem } from "shadcn/schema";
 
 import { convertRegistryPaths } from "@/lib/utils";
 import { WidgetCreditType } from "@/types";
-import WidgetCli from "@/components/cli-commands";
 import CodeBlock, { highlight } from "@/components/code-block";
-import {CopyButton} from "@/components/copy-button";
 import { Button } from "@/registry/default/ui/button";
 import {
   Dialog,
@@ -31,6 +29,7 @@ import {
   ItemMedia,
   ItemTitle,
 } from "@/registry/default/ui/item";
+import { CodeBlockCommand, convertNpmCommand } from "./code-block-command";
 
 export default function WidgetDetails({ widget }: { widget: RegistryItem }) {
   const [code, setCode] = useState<string | null>(null);
@@ -139,7 +138,9 @@ export default function WidgetDetails({ widget }: { widget: RegistryItem }) {
           )}
           <p className="text-lg font-semibold tracking-tight">Installation</p>
           <div className="min-w-0 space-y-4">
-            <WidgetCli name={widget.name} />
+            <CodeBlockCommand
+              {...convertNpmCommand("npx shadcn@latest add @wigggleui/widget")}
+            />
             <div className="space-y-2">
               <p className="text-lg font-semibold tracking-tight">Code</p>
               <div className="relative">
@@ -157,17 +158,11 @@ export default function WidgetDetails({ widget }: { widget: RegistryItem }) {
                     .
                   </p>
                 ) : (
-                  <>
-                    <CodeBlock
-                      code={code}
-                      lang="tsx"
-                      preHighlighted={highlightedCode}
-                    />
-                    {/* <CopyButton
-                      widgetName={widget.name}
-                      componentSource={code}
-                    /> */}
-                  </>
+                  <CodeBlock
+                    code={code}
+                    lang="tsx"
+                    preHighlighted={highlightedCode}
+                  />
                 )}
               </div>
             </div>
