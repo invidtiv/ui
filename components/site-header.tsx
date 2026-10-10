@@ -18,7 +18,9 @@ export default function SiteHeader() {
   return (
     <header className="sticky top-0 inset-x-0 z-50 bg-background border-border flex h-12 w-full items-center justify-between border-b px-3">
       <div className="flex items-center justify-start gap-6">
-        <Icons.logo className="size-5" />
+        <Link href="/">
+          <Icons.logo className="size-5" />
+        </Link>
         {LINKS.map((link) => (
           <Link
             key={link.href}

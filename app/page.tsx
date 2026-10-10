@@ -1,5 +1,3 @@
-// "use client";
-
 import { Outfit } from "next/font/google";
 
 const outfit = Outfit({
@@ -12,6 +10,7 @@ import { Button } from "@/registry/default/ui/button";
 import { CodeBlockCommand } from "@/components/code-block-command";
 import { convertNpmCommand } from "@/lib/convert-npm-command";
 import { WidgetMarquee } from "@/components/widget-marquee";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -34,8 +33,12 @@ export default function Home() {
           />
         </div>
         <div className="flex items-center justify-center gap-6">
-          <Button>Explore Widgets</Button>
-          <Button variant="outline">View Docs</Button>
+          <Button asChild>
+            <Link href="/widgets">Explore Widgets</Link>
+          </Button>
+          <Button variant="outline" asChild>
+            <Link href="/docs">View Docs</Link>
+          </Button>
         </div>
       </div>
       <div className="mx-auto w-full min-w-0 overflow-hidden">
