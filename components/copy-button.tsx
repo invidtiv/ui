@@ -12,11 +12,8 @@ import { IconSwap, IconSwapItem } from "@/components/icon-swap"
 
 export type CopyStateIconProps = {
   state: CopyState
-  /** Custom icon for idle state. */
   idleIcon?: React.ReactNode
-  /** Custom icon for done state. */
   doneIcon?: React.ReactNode
-  /** Custom icon for error state. */
   errorIcon?: React.ReactNode
 }
 
@@ -41,11 +38,8 @@ export function CopyStateIcon({
 }
 
 export type CopyButtonProps = ComponentProps<typeof Button> & {
-  /** The text to copy, or a function that returns the text. */
   text: string | (() => string)
-  /** Called with the copied text on successful copy. */
   onCopySuccess?: (text: string) => void
-  /** Called with the error if the copy operation fails. */
   onCopyError?: (error: Error) => void
 } & Omit<CopyStateIconProps, "state">
 

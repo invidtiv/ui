@@ -1,7 +1,7 @@
 "use client";
 
 import { useConfig } from "@/hooks/use-config";
-import CopyButton from "@/components/copy-button";
+import {CopyButton} from "@/components/copy-button";
 import {
   Tabs,
   TabsContent,
@@ -67,13 +67,13 @@ export default function CliCommands({ name }: { name: string }) {
           </TabsContent>
         ))}
       </Tabs>
-      <div className="absolute top-10 right-0">
+      {/* <div className="absolute top-10 right-0">
         <CopyButton
           widgetName={`${baseURL}/${name}`}
           componentSource={commands[packageManager as keyof typeof commands]}
           className="top-1"
         />
-      </div>
+      </div> */}
     </div>
   );
 }
