@@ -31,7 +31,12 @@ export default function WidgetDemo() {
       </WidgetHeader>
       <WidgetContent className="justify-between gap-4">
         <div className="w-full space-y-2">
-          <ResponsiveContainer width="100%" height={150} className="-mt-1.5">
+          <ResponsiveContainer
+            width="100%"
+            height={150}
+            initialDimension={{ width: 320, height: 150 }}
+            className="-mt-1.5"
+          >
             <RadialBarChart
               cx="50%"
               cy="50%"
