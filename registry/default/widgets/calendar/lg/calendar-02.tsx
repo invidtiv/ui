@@ -1,3 +1,6 @@
+"use client";
+
+import React from "react";
 import { twJoin } from "tailwind-merge";
 
 import {
@@ -10,7 +13,11 @@ import { Label } from "@/registry/default/ui/label";
 import { Separator } from "@/registry/default/ui/separator";
 
 export default function WidgetDemo() {
-  const now = new Date();
+  const [now, setNow] = React.useState(() => new Date(2025, 0, 1));
+
+  React.useEffect(() => {
+    setNow(new Date());
+  }, []);
 
   const dayName = now.toLocaleDateString("en-US", { weekday: "long" });
   const monthName = now.toLocaleDateString("en-US", { month: "short" });

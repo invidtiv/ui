@@ -1,3 +1,6 @@
+"use client";
+
+import React from "react";
 import {
   Widget,
   WidgetHeader,
@@ -13,19 +16,7 @@ import {
 import { Label } from "@/registry/default/ui/label";
 import { cn } from "@/registry/default/lib/utils";
 
-const now = new Date();
-const month = now.toLocaleString("en-US", { month: "short" });
-const year = now.getFullYear();
 const dayInitials = ["S", "M", "T", "W", "T", "F", "S"];
-
-const daysInMonth = new Date(year, now.getMonth() + 1, 0).getDate();
-const firstDay = new Date(year, now.getMonth(), 1).getDay();
-
-const tasks = Array.from({ length: daysInMonth }, () =>
-  Math.floor(Math.random() * 5),
-);
-
-const totalTasks = tasks.reduce((a, b) => a + b, 0);
 
 const taskColor = (level: number | null) =>
   level === null
@@ -39,6 +30,22 @@ const taskColor = (level: number | null) =>
       ][Math.min(level, 4)];
 
 export default function WidgetDemo() {
+  const [now, setNow] = React.useState(() => new Date(2025, 0, 1));
+
+  React.useEffect(() => {
+    setNow(new Date());
+  }, []);
+
+  const month = now.toLocaleString("en-US", { month: "short" });
+  const year = now.getFullYear();
+  const daysInMonth = new Date(year, now.getMonth() + 1, 0).getDate();
+  const firstDay = new Date(year, now.getMonth(), 1).getDay();
+  const tasks = Array.from(
+    { length: daysInMonth },
+    (_, day) => (day * 13 + now.getMonth() * 7 + year) % 5,
+  );
+  const totalTasks = tasks.reduce((a, b) => a + b, 0);
+
   return (
     <Widget className="gap-1 p-3" design="mumbai">
       <WidgetHeader className="justify-between px-1">

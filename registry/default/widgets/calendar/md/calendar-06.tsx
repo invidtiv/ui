@@ -1,3 +1,6 @@
+"use client";
+
+import React from "react";
 import { PlusIcon } from "lucide-react";
 
 import {
@@ -10,7 +13,11 @@ import { Label } from "@/registry/default/ui/label";
 import { Button } from "@/registry/default/ui/button";
 
 export default function WidgetDemo() {
-  const now = new Date();
+  const [now, setNow] = React.useState(() => new Date(2025, 0, 1));
+
+  React.useEffect(() => {
+    setNow(new Date());
+  }, []);
 
   const monthName = now.toLocaleDateString("en-US", { month: "long" });
   const year = now.getFullYear();

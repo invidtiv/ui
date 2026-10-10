@@ -19,7 +19,12 @@ const MIN_PRICE = 80;
 const MAX_PRICE = 250;
 
 export default function WidgetDemo() {
-  const [date, setDate] = React.useState(new Date());
+  const [date, setDate] = React.useState(() => new Date(2025, 0, 1));
+
+  React.useEffect(() => {
+    setDate(new Date());
+  }, []);
+
   const year = date.getFullYear();
   const month = date.getMonth();
 
@@ -37,11 +42,13 @@ export default function WidgetDemo() {
     calendarDays.forEach((day) => {
       if (day !== null) {
         priceMap[day] =
-          Math.floor(Math.random() * (MAX_PRICE - MIN_PRICE + 1)) + MIN_PRICE;
+          MIN_PRICE +
+          ((day * 37 + month * 17 + year * 13) %
+            (MAX_PRICE - MIN_PRICE + 1));
       }
     });
     return priceMap;
-  }, [calendarDays]);
+  }, [calendarDays, month, year]);
 
   const handlePreviousMonth = () =>
     setDate((prev) => new Date(prev.getFullYear(), prev.getMonth() - 1, 1));

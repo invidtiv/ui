@@ -1,8 +1,15 @@
+"use client";
+
+import React from "react";
 import { Widget, WidgetContent } from "@/registry/default/ui/widget";
 import { Label } from "@/registry/default/ui/label";
 
 export default function WidgetDemo() {
-  const now = new Date();
+  const [now, setNow] = React.useState(() => new Date(2025, 0, 1));
+
+  React.useEffect(() => {
+    setNow(new Date());
+  }, []);
 
   const day = now.toLocaleDateString("en-US", { weekday: "long" });
   const date = now.getDate().toString().padStart(2, "0");
