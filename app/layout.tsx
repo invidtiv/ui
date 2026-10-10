@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import { OpenPanelComponent } from "@openpanel/nextjs";
-import { Geist, Outfit, Geist_Mono } from "next/font/google";
+import { Outfit } from "next/font/google";
 
 import "./globals.css";
 
@@ -11,20 +11,10 @@ import SiteFooter from "@/components/site-footer";
 import { TailwindIndicator } from "@/components/tailwind-indicator";
 import { siteConfig } from "@/config/site";
 
-const geist = Geist({
-  subsets: ["latin"],
-  variable: "--font-geist",
-})
-
 const outfit = Outfit({
   subsets: ["latin"],
   variable: "--font-outfit",
-})
-
-const geistMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-geist-mono",
-})
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -97,7 +87,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geist.variable} ${outfit.variable} ${geistMono.variable} typeset typeset-app antialiased`}>
+      <body className={`${outfit.className} typeset typeset-app antialiased`}>
         <OpenPanelComponent
           clientId={process.env.OPEN_PANEL_CLIENT_ID!}
           trackScreenViews={true}
@@ -108,11 +98,11 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-            <div className="relative w-full min-h-screen bg-background font-sans text-foreground">
-              <SiteHeader />
-              <div className="p-6">{children}</div>
-              <SiteFooter />
-            </div>
+          <div className="bg-background text-foreground relative min-h-screen w-full font-sans">
+            <SiteHeader />
+            <div className="p-6">{children}</div>
+            <SiteFooter />
+          </div>
           <TailwindIndicator />
         </ThemeProvider>
         <Analytics />

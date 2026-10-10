@@ -16,7 +16,7 @@ import {
   CommandShortcut,
 } from "@/components/ui/command";
 import { Kbd } from "@/components/ui/kbd";
-import { MENU_LINKS, SOCIAL_LINKS } from "@/config/links";
+import { MENU_LINKS, SOCIAL_LINKS, WIDGET_CATEGORY_LINKS } from "@/config/links";
 
 export function SearchCommandMenu() {
   const [open, setOpen] = React.useState(false);
@@ -46,6 +46,15 @@ export function SearchCommandMenu() {
                   <CommandShortcut className="font-mono">
                     {link.shortcut}
                   </CommandShortcut>
+                </CommandItem>
+              ))}
+            </CommandGroup>
+            <CommandSeparator />
+            <CommandGroup heading="Widget Categories">
+              {WIDGET_CATEGORY_LINKS.map((link) => (
+                <CommandItem key={link.href}>
+                  {link.icon}
+                  <span>{link.title} Widgets</span>
                 </CommandItem>
               ))}
             </CommandGroup>

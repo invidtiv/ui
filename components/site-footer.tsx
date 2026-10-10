@@ -12,7 +12,7 @@ export default function SiteFooter() {
           className="hover:text-foreground font-medium transition-colors duration-300"
         >
           Henil Shah
-        </a>{" "}
+        </a>
         . The source code is available on{" "}
         <a
           href={siteConfig.links.github}

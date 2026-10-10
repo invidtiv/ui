@@ -1,4 +1,7 @@
-import type { JSX } from "react";
+export type WidgetEntryType = {
+  key: string;
+  widget: React.ReactElement;
+};
 
 export type WidgetCreditType = {
   name: string;
@@ -10,14 +13,14 @@ export type WidgetCreditType = {
 export type SponsorType = {
   name: string;
   url: string;
-  logo: (props: React.ComponentProps<"svg">) => JSX.Element;
+  logo: (props: React.ComponentProps<"svg">) => React.ReactElement;
   tier?: "platinum" | "gold" | "silver" | "bronze";
 };
 
 export type LinkItem = {
-  title: string
-  href: string
-  icon?: React.ReactElement
-  shortcut?: string
-  openInNewTab?: boolean
-}
+  title: string;
+  href: string;
+  icon?: React.ReactElement;
+  shortcut?: string;
+  openInNewTab?: boolean;
+};

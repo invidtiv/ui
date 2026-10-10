@@ -17,6 +17,9 @@ import {
 import { CopyButton } from "@/components/copy-button"
 import { IconSwap, IconSwapItem } from "@/components/icon-swap"
 
+export { convertNpmCommand } from "@/lib/convert-npm-command"
+export type { ConvertNpmCommandResult } from "@/lib/convert-npm-command"
+
 export type PackageManager = "prompt" | "pnpm" | "yarn" | "npm" | "bun"
 
 const packageManagerAtom = atomWithStorage<PackageManager>(
@@ -28,76 +31,16 @@ export function usePackageManager() {
   return useAtom(packageManagerAtom)
 }
 
-/**
- * Props for the CodeBlockCommand component.
- */
 export type CodeBlockCommandProps = {
-  /**
-   * Natural language instruction for AI agents to install a package or component.
-   */
   prompt?: string
-  /**
-   * Command to execute with pnpm package manager.
-   */
   pnpm?: string
-
-  /**
-   * Command to execute with yarn package manager.
-   */
   yarn?: string
-
-  /**
-   * Command to execute with npm package manager.
-   */
   npm?: string
-
-  /**
-   * Command to execute with bun package manager.
-   */
   bun?: string
-
-  /**
-   * Callback invoked when a command is successfully copied to clipboard.
-   *
-   * Receives an object containing the selected package manager and the copied command text.
-   * Useful for tracking user interactions or showing custom success notifications.
-   *
-   * @param data - Object containing copy operation details
-   * @param data.packageManager - The package manager that was selected when copying
-   * @param data.command - The actual command text that was copied
-   *
-   * @example
-   * ```tsx
-   * <CodeBlockCommand
-   *   pnpm="pnpm add react"
-   *   onCopySuccess={({ packageManager, command }) => {
-   *     console.log(`Copied ${command} for ${packageManager}`)
-   *   }}
-   * />
-   * ```
-   */
   onCopySuccess?: (data: {
     packageManager: PackageManager
     command: string
   }) => void
-
-  /**
-   * Callback invoked when copying to clipboard fails.
-   *
-   * Receives the error object for debugging or showing custom error messages.
-   *
-   * @param error - The error that occurred during the copy operation
-   *
-   * @example
-   * ```tsx
-   * <CodeBlockCommand
-   *   pnpm="pnpm add react"
-   *   onCopyError={(error) => {
-   *     console.error('Copy failed:', error)
-   *   }}
-   * />
-   * ```
-   */
   onCopyError?: (error: Error) => void
 }
 
@@ -177,7 +120,7 @@ export function CodeBlockCommand({
                 <code
                   data-slot="code-block"
                   data-language="bash"
-                  className="font-mono text-sm/none text-muted-foreground group-data-[pm=prompt]/tabs-content-pre:whitespace-normal"
+                  className="font-mono text-base/none text-muted-foreground group-data-[pm=prompt]/tabs-content-pre:whitespace-normal"
                 >
                   <span className="select-none group-data-[pm=prompt]/tabs-content-pre:hidden">
                     ${" "}
@@ -249,112 +192,5 @@ function getIconForPackageManager(manager: PackageManager) {
       )
     default:
       return <TerminalIcon />
-  }
-}
-
-/**
- * Result of converting an npm command to all package managers.
- */
-export type ConvertNpmCommandResult = {
-  /**
-   * Command for pnpm package manager.
-   */
-  pnpm: string
-
-  /**
-   * Command for yarn package manager.
-   */
-  yarn: string
-
-  /**
-   * Command for npm package manager.
-   */
-  npm: string
-
-  /**
-   * Command for bun package manager.
-   */
-  bun: string
-}
-
-/**
- * Converts a standard npm command into equivalent commands for pnpm, yarn, npm,
- * and bun. The result can be spread directly into `CodeBlockCommand` props.
- *
- * Supported command patterns:
- * - `npm install <pkg>` -> add commands for each manager
- * - `npx create-<name>` -> create commands for each manager
- * - `npm create <name>` -> create commands for each manager
- * - `npx <command>` -> execute commands for each manager
- * - `npm run <script>` -> run commands for each manager
- *
- * Unrecognized commands are returned as-is for all package managers.
- *
- * @param npmCommand - A standard npm/npx command string.
- * @returns An object with `pnpm`, `yarn`, `npm`, and `bun` command strings.
- *
- * @example
- * ```tsx
- * import { CodeBlockCommand, convertNpmCommand } from "@/components/ncdai/code-block-command"
- *
- * <CodeBlockCommand {...convertNpmCommand("npx shadcn add button")} />
- * ```
- */
-export function convertNpmCommand(npmCommand: string): ConvertNpmCommandResult {
-  // npm install
-  if (npmCommand.startsWith("npm install")) {
-    return {
-      pnpm: npmCommand.replaceAll("npm install", "pnpm add"),
-      yarn: npmCommand.replaceAll("npm install", "yarn add"),
-      npm: npmCommand,
-      bun: npmCommand.replaceAll("npm install", "bun add"),
-    }
-  }
-
-  // npx create- (must be checked before generic npx)
-  if (npmCommand.startsWith("npx create-")) {
-    return {
-      pnpm: npmCommand.replace("npx create-", "pnpm create "),
-      yarn: npmCommand.replace("npx create-", "yarn create "),
-      npm: npmCommand,
-      bun: npmCommand.replace("npx", "bunx --bun"),
-    }
-  }
-
-  // npm create
-  if (npmCommand.startsWith("npm create")) {
-    return {
-      pnpm: npmCommand.replace("npm create", "pnpm create"),
-      yarn: npmCommand.replace("npm create", "yarn create"),
-      npm: npmCommand,
-      bun: npmCommand.replace("npm create", "bun create"),
-    }
-  }
-
-  // npx (general)
-  if (npmCommand.startsWith("npx")) {
-    return {
-      pnpm: npmCommand.replace("npx", "pnpm dlx"),
-      yarn: npmCommand.replace("npx", "yarn dlx"),
-      npm: npmCommand,
-      bun: npmCommand.replace("npx", "bunx --bun"),
-    }
-  }
-
-  // npm run
-  if (npmCommand.startsWith("npm run")) {
-    return {
-      pnpm: npmCommand.replace("npm run", "pnpm"),
-      yarn: npmCommand.replace("npm run", "yarn"),
-      npm: npmCommand,
-      bun: npmCommand.replace("npm run", "bun"),
-    }
-  }
-
-  return {
-    pnpm: npmCommand,
-    yarn: npmCommand,
-    npm: npmCommand,
-    bun: npmCommand,
   }
 }
