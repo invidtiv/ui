@@ -2,6 +2,7 @@ import { SparklesIcon } from "lucide-react";
 
 import WidgetsDisplay from "./_components/widgets-display";
 import { getFileContent } from "@/lib/utils.server";
+import { convertNpmCommand } from "@/lib/convert-npm-command";
 
 export const baseWidgetFileCode = await getFileContent("widget.tsx");
 
@@ -22,7 +23,9 @@ Wigggle UI is a free and open source UI collection of beautifully designed Widge
 Wigggle UI is a trusted registry for shadcn/ui. You can start adding widgets right away!
 
 <div className="mt-3">
-  <CliCommands name="clock-sm-01" />
+  <CodeBlockCommand
+    {...convertNpmCommand("npx shadcn@latest add @wigggle-ui/clock-sm-01")}
+  />
 </div>
 
 # What is a Widget?
@@ -41,7 +44,9 @@ We're working on adding more styles like **Circle** widgets to the collection. I
 # Installation
 
 <div className="mt-3">
-  <CliCommands name="widget" />
+  <CodeBlockCommand
+    {...convertNpmCommand("npx shadcn@latest add @wigggle-ui/widget")}
+  />
 </div>
 
 # Usage
